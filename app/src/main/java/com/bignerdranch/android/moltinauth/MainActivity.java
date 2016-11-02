@@ -16,7 +16,7 @@ import static java.lang.reflect.Modifier.FINAL;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    private Moltin moltin;
     private Button mButton;
     private static final String client_id = "8NOvhAZhn5YiNUcRa7NjVTbFnNy7LwNu2hlsyN9ScB";
 
@@ -25,20 +25,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        moltin = new Moltin(this);
+
         mButton = (Button) findViewById(R.id.authenticate_button);
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                authenticateMoltinAPI();
+                authenticateMoltinAPI(client_id);
             }
         });
 
     }
 
-    public void authenticateMoltinAPI() {
-        Moltin moltin = new Moltin(this);
+    public void authenticateMoltinAPI(String id) {
         try {
-            moltin.authenticate(client_id, new Handler.Callback() {
+            moltin.authenticate(id, new Handler.Callback() {
                 @Override
                 public boolean handleMessage(Message msg) {
                     if (msg.what == Constants.RESULT_OK) {
